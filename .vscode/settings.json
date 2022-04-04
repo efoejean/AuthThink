@@ -18,7 +18,7 @@
   "files.eol": "\n",
   "files.trimTrailingWhitespace": true,
   "typescript.inlayHints.parameterNames.enabled": "all",
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
   "prettier.requireConfig": true,
   "typescript.updateImportsOnFileMove.enabled": "always"
 }
