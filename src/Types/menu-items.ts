@@ -1,11 +1,7 @@
-// create a menu item type
+// collection of menu items
 
-export interface MenuItem {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  image: string;
+import { MenuItem } from './menu-item';
+
+export interface MenuItems {
+  [key: string]: MenuItem;
 }
-
-export type newMenuItemType = Omit<MenuItem, 'id'>;
