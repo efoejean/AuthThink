@@ -1,6 +1,5 @@
 module.exports = {
   env: {
-    es2021: true,
     node: true,
   },
   extends: ['xo', 'plugin:jest/recommended', 'plugin:jest/style', 'prettier'],
