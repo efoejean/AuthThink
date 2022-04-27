@@ -1,11 +1,11 @@
-export interface config {
+export interface Config {
   api: {
     apiEndpoint: string;
     apiKey: string;
   };
   db: {
     dataSource: string;
-    database: string;
+    dataBase: string;
     collection: string;
   };
   port: number;
