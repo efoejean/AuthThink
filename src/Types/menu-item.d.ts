@@ -8,4 +8,11 @@ export interface MenuItem {
   image: string;
 }
 
+// utility function to create a menu item
 export type newMenuItemType = Omit<MenuItem, 'id'>;
+export type MenuItemFilter =
+  | Partial<MenuItem>
+  | {
+      // Todo explore MOngoDB indexing and querying
+      price: object;
+    };
