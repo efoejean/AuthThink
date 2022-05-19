@@ -1,19 +1,61 @@
 import got from 'got';
 import config from '../config';
-import { MenuItem, MenuItemFilter } from '../Types/menu-item.d';
+import {
+  deletemenuitem,
+  MenuItem,
+  MenuItemFilter,
+  newMenuItemType,
+} from '../Types/menu-item.d';
+
+const headers = { 'api-key': config.api.apiKey };
+const dataMongoDB = {
+  dataSource: config.db.dataSource,
+  dataBase: config.db.dataBase,
+  collection: config.db.collection,
+};
 
 export default {
   find(fliter: MenuItemFilter = {}): Promise<MenuItem[]> {
     return got
       .post(`${config.api.apiEndpoint}/action/find`, {
-        headers: {
-          'api-key': config.api.apiKey,
-        },
+        headers,
         json: {
-          dataSource: config.db.dataSource,
-          dataBase: config.db.dataBase,
-          collection: config.db.collection,
+          ...dataMongoDB,
           filter: fliter,
+        },
+      })
+      .json();
+  },
+  insert(MenuItem: newMenuItemType): Promise<MenuItem> {
+    return got
+      .post(`${config.api.apiEndpoint}/action/insertOne`, {
+        headers,
+        json: {
+          ...dataMongoDB,
+          MenuItem,
+        },
+      })
+      .json();
+  },
+  update(id: string, MenuItem: newMenuItemType): Promise<MenuItem> {
+    return got
+      .post(`${config.api.apiEndpoint}/action/updateOne`, {
+        headers,
+        json: {
+          ...dataMongoDB,
+          filter: { _id: { $oid: id } },
+          update: { $set: MenuItem },
+        },
+      })
+      .json();
+  },
+  delete(id: string): Promise<deletemenuitem> {
+    return got
+      .post(`${config.api.apiEndpoint}/action/deleteOne`, {
+        headers,
+        json: {
+          ...dataMongoDB,
+          filter: { _id: { $oid: id } },
         },
       })
       .json();
