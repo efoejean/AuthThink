@@ -15,5 +15,6 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-redeclare': ['error'],
     '@typescript-eslint/no-unused-vars': ['warn'],
+    'new-cap': ['error', { properties: false }],
   },
 };
