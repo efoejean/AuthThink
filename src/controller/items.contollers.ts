@@ -1,21 +1,25 @@
 import got from 'got';
 import config from '../config';
 import {
-  deletemenuitem,
   MenuItem,
   MenuItemFilter,
   newMenuItemType,
 } from '../Types/menu-item.d';
 
+interface deleteMenuItem {
+  deletedCount: number;
+}
+
 const headers = { 'api-key': config.api.apiKey };
 const dataMongoDB = {
   dataSource: config.db.dataSource,
-  dataBase: config.db.dataBase,
+  database: config.db.dataBase,
   collection: config.db.collection,
 };
 
 export default {
   find(fliter: MenuItemFilter = {}): Promise<MenuItem[]> {
+    console.log(config.api.apiEndpoint);
     return got
       .post(`${config.api.apiEndpoint}/action/find`, {
         headers,
@@ -49,7 +53,7 @@ export default {
       })
       .json();
   },
-  delete(id: string): Promise<deletemenuitem> {
+  delete(id: string): Promise<deleteMenuItem> {
     return got
       .post(`${config.api.apiEndpoint}/action/deleteOne`, {
         headers,
