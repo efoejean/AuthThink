@@ -5,7 +5,7 @@ export interface Config {
   };
   db: {
     dataSource: string;
-    dataBase: string;
+    database: string;
     collection: string;
   };
   port: number;

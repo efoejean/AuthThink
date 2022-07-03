@@ -9,7 +9,7 @@ export interface MenuItem {
 }
 
 // utility function to create a menu item
-export type newMenuItemType = Omit<MenuItem, 'id'>;
+export type NewMenuItemType = Omit<MenuItem, 'id'>;
 export type MenuItemFilter =
   | Partial<MenuItem>
   | {
