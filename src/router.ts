@@ -14,8 +14,8 @@ router.get('/items', async (req: Request, res: Response) => {
 router.get('/items/:id', async (req: Request, res: Response) => {
   try {
     res.json(await itemsContollers.findOne(req.params.id!));
-  } catch {
-    res.status(404).json({ message: 'Item not found' });
+  } catch (error: any) {
+    res.status(500).send(error.message);
   }
 });
 
