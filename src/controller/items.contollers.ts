@@ -3,8 +3,9 @@ import config from '../config';
 import {
   MenuItem,
   MenuItemFilter,
-  newMenuItemType,
+  NewMenuItemType,
 } from '../Types/menu-item.d';
+import { makeValuesLowercase } from '../utils/utils';
 
 interface deleteMenuItem {
   deletedCount: number;
@@ -13,49 +14,63 @@ interface deleteMenuItem {
 const headers = { 'api-key': config.api.apiKey };
 const dataMongoDB = {
   dataSource: config.db.dataSource,
-  database: config.db.dataBase,
+  database: config.db.database,
   collection: config.db.collection,
 };
 
 export default {
   find(fliter: MenuItemFilter = {}): Promise<MenuItem[]> {
-    console.log(config.api.apiEndpoint);
     return got
       .post(`${config.api.apiEndpoint}/action/find`, {
         headers,
         json: {
           ...dataMongoDB,
-          filter: fliter,
+          filter: makeValuesLowercase(fliter),
         },
       })
       .json();
   },
-  insert(MenuItem: newMenuItemType): Promise<MenuItem> {
+  findOne(id: string): Promise<MenuItem> {
+    return got
+      .post(`${config.api.apiEndpoint}/action/findOne`, {
+        headers,
+        json: {
+          ...dataMongoDB,
+          filter: {
+            _id: { $oid: id },
+          },
+        },
+      })
+      .json();
+  },
+  insert(newMenuItem: NewMenuItemType): Promise<MenuItem> {
     return got
       .post(`${config.api.apiEndpoint}/action/insertOne`, {
         headers,
         json: {
           ...dataMongoDB,
-          MenuItem,
+          document: { ...makeValuesLowercase(newMenuItem) },
         },
       })
       .json();
   },
-  update(id: string, MenuItem: newMenuItemType): Promise<MenuItem> {
+
+  update(id: string, newMenuItem: NewMenuItemType): Promise<MenuItem> {
     return got
       .post(`${config.api.apiEndpoint}/action/updateOne`, {
         headers,
         json: {
           ...dataMongoDB,
           filter: { _id: { $oid: id } },
-          update: { $set: MenuItem },
+          update: { $set: newMenuItem },
         },
       })
       .json();
   },
   delete(id: string): Promise<deleteMenuItem> {
+    console.log(id);
     return got
-      .post(`${config.api.apiEndpoint}/action/deleteOne`, {
+      .post(`${config.api.apiEndpoint}/action/delete`, {
         headers,
         json: {
           ...dataMongoDB,
